@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+
+  /* Primary colors */
+  --color-primary: #10b981;
+  --color-primary-dark: #065f46;
+  --color-primary-light: #d1fae5;
+  --color-primary-hover: #bbf7d0;
+
+  /* Secondary and Accent */
+  --color-secondary: #34d399;
+  --color-accent: #22c55e;
+
+  /* Backgrounds and Surfaces */
+  --color-bg: #f0fdf4;
+  --color-surface: #ffffff;
+  --color-divider: #d1d5db;
+  --color-disabled: #9ca3af;
+
+  /* Text */
+  --color-text-primary: #064e3b;
+  --color-text-secondary: #4b5563;
+
+  /* Icons */
+  --color-icon-default: #111827;
+
+  /* State colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+@layer components {
+  .nav-link {
+    @apply text-text-secondary rounded-lg bg-transparent py-2 px-3 flex gap-3 items-center text-base transition-colors duration-200 ease-out hover:text-primary-dark hover:bg-primary-hover;
+  }
+
+  .nav-link.active {
+    @apply text-primary-dark bg-primary-light font-medium;
+  }
+}
+
+body {
+  font-family: var(--font-inter);
+}
