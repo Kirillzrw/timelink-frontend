@@ -45,4 +45,8 @@
 
 body {
   font-family: var(--font-inter);
+
+  :focus-visible {
+    @apply outline-primary outline-1 outline-offset-1;
+  }
 }

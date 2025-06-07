@@ -13,10 +13,10 @@ import isoWeek from "dayjs/plugin/isoWeek"
 import localeData from "dayjs/plugin/localeData"
 import "dayjs/locale/ru"
 import { AuthProvider } from "@providers/auth-provider.tsx"
-import { MantineProvider } from "@mantine/core"
 import ErrorBoundary from "@components/ui/error-boundary.tsx"
 import MainLayout from "@layouts/main-layout.tsx"
 import BookingId from "@pages/booking/id"
+import MantineProvider from "@providers/mantine-provider"
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

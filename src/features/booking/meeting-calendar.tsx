@@ -1,10 +1,11 @@
 import type { Dayjs } from "dayjs"
 import dayjs from "dayjs"
-import { useCallback, useMemo, useState } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { getCalendarGridDays, shortDays } from "@utils/calendar"
 import { clsx } from "clsx"
+import { parseYMDDate } from "@utils/date"
 
 type Props = {
   activeDates: string[]
@@ -27,7 +28,7 @@ const variants = {
   }),
 }
 
-const Calendar = (props: Props) => {
+const Calendar = memo((props: Props) => {
   const today = dayjs()
 
   const { activeDates, selectedDate, selectDate } = props
@@ -38,7 +39,7 @@ const Calendar = (props: Props) => {
   const isPrevDisabled = currentDate.isSame(today, "month") || currentDate.isBefore(today, "month")
 
   const formattedActiveDates = useMemo((): Dayjs[] => {
-    return activeDates.map((date) => dayjs(date, "YYYY.MM.DD"))
+    return activeDates.map((date) => parseYMDDate(date))
   }, [activeDates])
 
   const isActiveDate = useCallback(
@@ -76,12 +77,13 @@ const Calendar = (props: Props) => {
 
   return (
     <div className="">
-      <div className="flex items-center justify-center gap-1.5">
+      <div className="flex items-center justify-center gap-1 px-0.5">
         <button
           className={clsx("group flex justify-center rounded-full items-center size-[2.375rem]", {
             "text-primary bg-primary-light cursor-pointer hover:bg-primary-hover hover:text-text-primary": !isPrevDisabled,
           })}
-          onClick={handlePreviousMonth}>
+          onClick={handlePreviousMonth}
+        >
           <ChevronLeft className="group-hover:text-text-primary mr-0.5" size={20} />
         </button>
         <div className="relative min-w-36 h-6 overflow-hidden text-center">
@@ -92,9 +94,10 @@ const Calendar = (props: Props) => {
               custom={direction}
               exit="exit"
               initial="enter"
-              key={currentDate.format("YYYY-MM")}
               transition={{ duration: 0.3 }}
-              variants={variants}>
+              variants={variants}
+            >
+              {/* // TODO: возможно вынести в formatMonthYear(), если потребуется переиспользование */}
               {currentDate.format("MMMM YYYY")}
             </motion.p>
           </AnimatePresence>
@@ -103,12 +106,13 @@ const Calendar = (props: Props) => {
           className={clsx("group flex justify-center rounded-full items-center size-[2.375rem]", {
             "text-primary bg-primary-light cursor-pointer hover:bg-primary-hover hover:text-text-primary": true,
           })}
-          onClick={handleNextMonth}>
+          onClick={handleNextMonth}
+        >
           <ChevronRight className="group-hover:text-text-primary ml-0.5" size={20} />
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-y-2 box-border mt-3 mb-2">
+      <div className="grid grid-cols-7 gap-y-2 box-border mt-3 mb-2 px-0.5">
         {shortDays.map((day, index) => (
           <abbr className="flex text-xs no-underline justify-center w-11" key={index} title={day.full}>
             {day.short}
@@ -116,17 +120,17 @@ const Calendar = (props: Props) => {
         ))}
       </div>
 
-      <div className="relative min-h-[305px] overflow-hidden">
+      <div className="relative min-h-[315px] overflow-hidden">
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
             animate="center"
-            className="grid grid-cols-7 gap-y-2 box-border absolute top-0 left-0 w-full"
+            className="grid grid-cols-7 gap-y-2 box-border absolute px-0.5 py-1 top-0 left-0 w-full"
             custom={direction}
             exit="exit"
             initial="enter"
-            key={currentDate.format("YYYY-MM")}
             transition={{ duration: 0.3 }}
-            variants={variants}>
+            variants={variants}
+          >
             {dateList.map((item, index) => (
               <button
                 className={clsx(
@@ -136,11 +140,12 @@ const Calendar = (props: Props) => {
                     "text-primary bg-primary-light cursor-pointer hover:bg-primary-hover hover:text-text-primary":
                       isActiveDate(item.date) && !selectedDate?.isSame(item.date, "day"),
                     "text-disabled cursor-default": !isActiveDate(item.date),
-                    "bg-primary text-white": selectedDate?.isSame(item.date, "day"),
+                    "bg-primary text-surface": selectedDate?.isSame(item.date, "day"),
                   },
                 )}
                 key={index}
-                onClick={() => handleSelectDate(item.date)}>
+                onClick={() => handleSelectDate(item.date)}
+              >
                 {item.date.format("D")}
               </button>
             ))}
@@ -149,6 +154,6 @@ const Calendar = (props: Props) => {
       </div>
     </div>
   )
-}
+})
 
 export default Calendar

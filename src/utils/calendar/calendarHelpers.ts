@@ -1,3 +1,4 @@
+import type { Dayjs } from "dayjs"
 import type dayjs from "dayjs"
 
 export type Day = {
@@ -37,16 +38,16 @@ const getPrevMonthPadding = (date: dayjs.Dayjs): Day[] => {
   })
 }
 
-const getNextMonthPadding = (date: dayjs.Dayjs): Day[] => {
-  const endOffset = DAYS_IN_WEEK - date.endOf("month").isoWeekday()
+const getNextMonthPadding = (date: Dayjs, currentLength: number): Day[] => {
+  const totalNeeded = 42
+  const daysToAdd = totalNeeded - currentLength
 
-  if (endOffset === DAYS_IN_WEEK) return []
+  if (daysToAdd <= 0) return []
 
   const nextMonth = date.add(1, "month").startOf("day")
 
-  return Array.from({ length: endOffset }).map((_, index) => {
-    const dateOffset = index + 1
-    const day = nextMonth.date(dateOffset)
+  return Array.from({ length: daysToAdd }).map((_, index) => {
+    const day = nextMonth.date(index + 1)
     return {
       date: day,
       type: "next",
@@ -54,7 +55,7 @@ const getNextMonthPadding = (date: dayjs.Dayjs): Day[] => {
   })
 }
 
-const getDaysInMonth = (date: dayjs.Dayjs): Day[] => {
+const getDaysInMonth = (date: Dayjs): Day[] => {
   const daysInMonth = date.daysInMonth()
   return Array.from({ length: daysInMonth }).map((_, index) => {
     const day = date.date(index + 1)
@@ -66,5 +67,8 @@ const getDaysInMonth = (date: dayjs.Dayjs): Day[] => {
 }
 
 export const getCalendarGridDays = (date: dayjs.Dayjs): Day[] => {
-  return [...getPrevMonthPadding(date), ...getDaysInMonth(date), ...getNextMonthPadding(date)]
+  const prev = getPrevMonthPadding(date)
+  const current = getDaysInMonth(date)
+  const next = getNextMonthPadding(date, prev.length + current.length)
+  return [...prev, ...current, ...next]
 }

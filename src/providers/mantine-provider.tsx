@@ -8,6 +8,7 @@ type Props = {
 const theme = createTheme({
   fontFamily: "Inter, sans-serif",
   headings: { fontFamily: "Inter, sans-serif" },
+  focusClassName: "focus-visible:outline focus-visible:outline-offset-3 focus-visible:outline-primary",
 })
 
 const MantineProvider = ({ children }: Props) => {
