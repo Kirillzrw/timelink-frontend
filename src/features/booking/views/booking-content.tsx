@@ -3,6 +3,7 @@ import { useMemo } from "react"
 import { Calendar, TimeSelector, useBooking, UserInfo } from "@features/booking"
 import { formatWeekdayMonthDay } from "@utils/date"
 import { useStepContext } from "@contexts/use-step-context"
+import DetailsForm from "../components/details-form"
 
 const data = {
   duration: 60,
@@ -29,10 +30,10 @@ const BookingContent = () => {
 
   return (
     <div className="mt-16 px-6 mx-auto">
-      {currentStep === 1 && (
-        <div className="flex min-h-[43.75rem] max-w-[100rem] border border-divider rounded-lg overflow-hidden">
-          <UserInfo data={data} selected={!!selectedDate} />
+      <div className="flex min-h-[43.75rem] max-w-[100rem] border border-divider rounded-lg overflow-hidden">
+        <UserInfo data={data} selected={!!selectedDate} selectedDate={selectedDate} selectedTime={selectedTime} />
 
+        {currentStep === 1 && (
           <div
             className={clsx("transition-all min-w-auto duration-300 ease-in-out", selectedDate ? "w-[65%]" : "w-1/2", {
               "min-w-[36.5625rem]": selectedDate,
@@ -66,8 +67,9 @@ const BookingContent = () => {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+        {currentStep === 2 && <DetailsForm />}
+      </div>
     </div>
   )
 }

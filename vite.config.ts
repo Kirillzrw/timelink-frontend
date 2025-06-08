@@ -24,7 +24,6 @@ export default defineConfig({
       brotliSize: true,
     }),
   ],
-  cacheDir: "node_modules/.vite",
   optimizeDeps: {
     exclude: ["@mantine/core", "@mantine/hooks"],
   },

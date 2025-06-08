@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { getCalendarGridDays, shortDays } from "@utils/calendar"
 import { clsx } from "clsx"
-import { parseYMDDate } from "@utils/date"
+import { DATE_FORMATS, parseYMDDate } from "@utils/date"
 
 type Props = {
   activeDates: string[]
@@ -98,7 +98,7 @@ const Calendar = memo((props: Props) => {
               variants={variants}
             >
               {/* // TODO: возможно вынести в formatMonthYear(), если потребуется переиспользование */}
-              {currentDate.format("MMMM YYYY")}
+              {currentDate.format(DATE_FORMATS.monthYear)}
             </motion.p>
           </AnimatePresence>
         </div>

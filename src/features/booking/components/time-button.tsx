@@ -1,18 +1,28 @@
-import { memo } from "react"
+import { memo, useCallback } from "react"
 import { motion } from "framer-motion"
 import clsx from "clsx"
+import { useStepContext } from "@contexts/use-step-context"
 
 type Props = {
   time: string
-  handleSelectTime: (time: string) => void
+  selectTime: (time: string) => void
   isSelected: boolean
 }
 
 const TimeButton = memo((props: Props) => {
-  const { isSelected, handleSelectTime, time } = props
+  const { isSelected, selectTime, time } = props
+  const { next } = useStepContext()
 
-  const baseButtonClasses =
-    "rounded-lg flex py-3.5 justify-center items-center"
+  const baseButtonClasses = "rounded-lg flex py-3.5 justify-center items-center"
+
+  const handleSelectTime = useCallback(
+    (time: string) => {
+      selectTime(time)
+    },
+    [selectTime],
+  )
+
+  const handleNext = useCallback(() => next(), [next])
 
   return (
     <div aria-label={`Select time slot ${time}`} className="flex justify-between gap-2.5">
@@ -47,10 +57,10 @@ const TimeButton = memo((props: Props) => {
           className={clsx(baseButtonClasses, "cursor-pointer overflow-hidden bg-primary")}
           initial={{
             width: 0,
-            originX: 1,
           }}
           transition={{ duration: 0.2 }}
           type="button"
+          onClick={handleNext}
         >
           <span className="text-surface font-bold">Next</span>
         </motion.button>

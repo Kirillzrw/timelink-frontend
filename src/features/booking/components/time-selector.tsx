@@ -1,4 +1,3 @@
-import { useCallback } from "react"
 import TimeButton from "./time-button"
 
 type Props = {
@@ -13,19 +12,12 @@ const TimeSelector = (props: Props) => {
   const { times, timeState } = props
   const { selectTime, selectedTime } = timeState
 
-  const handleSelectTime = useCallback(
-    (time: string) => {
-      selectTime(time)
-    },
-    [selectTime],
-  )
-
   return (
     <div className="overflow-auto flex-[1_1_100px] pr-[1.875rem] pl-1 pb-[0.9375rem] h-full">
       <div className="space-y-2">
         {times.map((time, index) => {
           const isSelected = time === selectedTime
-          return <TimeButton handleSelectTime={handleSelectTime} isSelected={isSelected} key={index} time={time} />
+          return <TimeButton isSelected={isSelected} key={index} selectTime={selectTime} time={time} />
         })}
       </div>
     </div>
