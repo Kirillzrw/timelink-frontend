@@ -4,6 +4,7 @@ import { useCallback, useState } from "react"
 export const useBooking = () => {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [isBookingConfirmed, setIsBookingConfirmed] = useState(false)
 
   const handleSelectDate = useCallback((date: Dayjs) => {
     setSelectedTime(null)
@@ -14,10 +15,16 @@ export const useBooking = () => {
     setSelectedTime(time)
   }, [])
 
+  const handleConfirmBooking = useCallback(() => {
+    setIsBookingConfirmed(true)
+  }, [])
+
   return {
     selectedDate,
     selectedTime,
+    isBookingConfirmed,
     handleSelectDate,
     handleSelectTime,
+    handleConfirmBooking,
   }
 }
