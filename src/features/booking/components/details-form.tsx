@@ -4,8 +4,11 @@ import type { FieldErrors } from "react-hook-form"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { BookingDetailsSchema, type BookingDetails } from "../schemas/booking.schema"
+import { useStepContext } from "@contexts/use-step-context"
 
 const DetailsForm = () => {
+  const { next } = useStepContext()
+
   const {
     control,
     handleSubmit,
@@ -18,6 +21,7 @@ const DetailsForm = () => {
 
   const onSubmit = (data: BookingDetails) => {
     console.log(data, "data")
+    next()
   }
 
   const onError = (errors: FieldErrors<BookingDetails>) => {

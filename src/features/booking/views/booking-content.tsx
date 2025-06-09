@@ -4,6 +4,7 @@ import { Calendar, TimeSelector, useBooking, UserInfo } from "@features/booking"
 import { formatWeekdayMonthDay } from "@utils/date"
 import { useStepContext } from "@contexts/use-step-context"
 import DetailsForm from "../components/details-form"
+import StatusView from "../components/status-view"
 
 const data = {
   duration: 60,
@@ -30,8 +31,10 @@ const BookingContent = () => {
 
   return (
     <div className="mt-16 px-6 mx-auto">
-      <div className="flex min-h-[43.75rem] max-w-[100rem] border border-divider rounded-lg overflow-hidden">
-        <UserInfo data={data} selected={!!selectedDate} selectedDate={selectedDate} selectedTime={selectedTime} />
+      <div className="flex min-h-[43.75rem] min-w-[56.25rem] max-w-[100rem] border border-divider rounded-lg overflow-hidden">
+        {currentStep !== 3 && (
+          <UserInfo data={data} selected={!!selectedDate} selectedDate={selectedDate} selectedTime={selectedTime} />
+        )}
 
         {currentStep === 1 && (
           <div
@@ -69,6 +72,7 @@ const BookingContent = () => {
           </div>
         )}
         {currentStep === 2 && <DetailsForm />}
+        {currentStep === 3 && <StatusView data={data} selectedDate={selectedDate} selectedTime={selectedTime} />}
       </div>
     </div>
   )

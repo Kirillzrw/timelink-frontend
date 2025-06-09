@@ -23,6 +23,12 @@
   --color-text-primary: #064e3b;
   --color-text-secondary: #4b5563;
 
+  /* Darker text colors */
+  --color-text-dark-100: #111827; /* Very dark */
+  --color-text-dark-200: #1f2937;
+  --color-text-dark-300: #374151;
+  --color-text-dark-400: #4b5563;
+
   /* Icons */
   --color-icon-default: #111827;
 
